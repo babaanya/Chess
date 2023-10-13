@@ -1,6 +1,7 @@
 public class ChessBoard {
     public ChessPiece[][] board;
-    private String nowPlayer;
+    public String nowPlayer;
+    public int toLine;
 
     public ChessBoard(String white) {
         board = new ChessPiece[8][8];
@@ -11,20 +12,22 @@ public class ChessBoard {
         return nowPlayer;
     }
 
-    public boolean moveToPosition(int line, int column, int toLine, int toColumn) {
+    public boolean moveToPosition(int line, int column, int toline, int toColumn) {
         ChessPiece piece = board[line][column];
         if (piece != null && piece.getColor().equals(nowPlayer)) {
             if (piece.canMoveToPosition(this, line, column, toLine, toColumn)) {
                 board[toLine][toColumn] = piece;
                 board[line][column] = null;
                 nowPlayer = (nowPlayer.equals("White")) ? "Black" : "White";
+                return true;
             } else {
                 System.out.println("Invalid move!");
+                return false;
             }
         } else {
             System.out.println("No piece at the selected position or it's not your turn!");
+            return false;
         }
-        return false;
     }
 
     public void printBoard() {
